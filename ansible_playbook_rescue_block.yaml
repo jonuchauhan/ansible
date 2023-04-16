@@ -1,0 +1,15 @@
+- hosts: all
+  tasks:
+    - block:
+          - lineinfile:
+                  path: /tmp/cloud.txt
+                  line: "Hello World"
+      
+      rescue:
+          - file:
+                path: /tmp/cloud.txt
+                state: touch
+
+          - lineinfile:
+                  path: /tmp/cloud.txt
+                  line: "Hello World"
