@@ -1,0 +1,13 @@
+- hosts: all 
+  tasks:
+    - lineinfile:
+          path: /etc/ssh/sshd_config
+          line: DenyUsers jim
+      notify: SSH_CONFIG_CHANGED
+      tags: dev
+
+  handlers:
+        - name: SSH_CONFIG_CHANGED   
+          service:
+             name: sshd 
+             state: restarted
