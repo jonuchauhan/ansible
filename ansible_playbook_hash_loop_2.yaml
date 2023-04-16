@@ -1,0 +1,22 @@
+- hosts: all
+  vars:
+     groups:
+           - dev_grp
+           - test_grp
+           - prod_grp 
+  tasks: 
+     - group:
+            name: "{{ item }}"
+            state: present
+       with_items:
+            "{{groups}}"
+
+     - user:
+          name: "{{item.a}}"
+          state: present
+          groups: "{{item.b}}"
+       with_items:
+           - {a: "jim", b: "dev_grp" }
+           - {a: "kim", b: "test_grp"}
+           - {a: "varun", b: "prod_grp"}
+          

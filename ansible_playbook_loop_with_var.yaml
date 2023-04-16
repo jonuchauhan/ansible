@@ -1,0 +1,32 @@
+- hosts: all
+  vars:
+    - dirs:
+         - /tmp/cloud_1
+         - /tmp/cloud_2
+         - /tmp/cloud_3
+    - files:
+         - /tmp/test1.txt 
+         - /tmp/test2.txt 
+         - /tmp/test3.txt 
+         - /tmp/test4.txt 
+         - /tmp/test5.txt 
+         - /tmp/test6.txt 
+
+        
+  tasks:
+     - copy:
+         src: "{{ item }}"
+         dest: /tmp
+       with_items:
+         - "{{files}}"
+       
+     - file:
+        path: "{{item}}"
+        state: directory
+       with_items:
+          - "{{dirs}}"
+     - copy:
+        src: /tmp/test1.txt
+        dest: "{{item}}"
+       with_items:
+         - "{{dirs}}"

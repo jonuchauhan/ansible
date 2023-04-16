@@ -1,0 +1,19 @@
+- hosts: all
+  vars:
+     file:
+      - /tmp/test1.txt
+      - /tmp/test2.txt
+      - /tmp/test3.txt
+     dir:
+      - /tmp/cloud_1
+      - /tmp/cloud_2
+      - /tmp/cloud_3
+
+  tasks:
+    - copy:
+        src: "{{file[0]}}"
+        dest: "{{item[1]}}"
+      with_nested:
+        - /tmp/cloud_1
+        - /tmp/cloud_2
+        - /tmp/cloud_3

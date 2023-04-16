@@ -1,0 +1,9 @@
+- hosts: all
+  tasks: 
+    - copy:
+         src: "{{item.a}}"
+         dest: "{{item.b}}"
+      with_items:
+          - { a: "/tmp/test1.txt" , b: "/tmp/cloud_1" }
+          - { a: "/tmp/test2.txt" , b: "/tmp/cloud_2" }
+          - { a: "/tmp/test3.txt" , b: "/tmp/cloud_3" }
