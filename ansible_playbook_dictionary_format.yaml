@@ -1,0 +1,21 @@
+- hosts: all 
+  tasks:
+    - copy: 
+          src: /tmp/test.txt
+          dest: /tmp
+          owner: root
+          group: root
+          mode: 777
+    - file:
+          path: /tmp/dummy_test
+          state: directory
+    
+    - yum:
+          name: httpd
+          state: present
+
+    - service:
+          name: httpd
+          state: restarted
+                     
+          
