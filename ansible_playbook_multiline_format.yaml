@@ -1,0 +1,14 @@
+- hosts: all 
+  tasks: 
+    - file: path=/tmp/gcp
+            state=directory
+    - copy: src=/tmp/gcp.txt
+            dest=/tmp/gcp/
+            owner=test_user
+            group=test_user
+            mode=777
+    - yum:  name=nfs-utils
+            state=latest
+
+    - service : name=nfs-server
+                state=started        
