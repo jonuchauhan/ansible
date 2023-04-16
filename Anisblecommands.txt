@@ -1,0 +1,78 @@
+command  module
+
+# when we need to provide password while running the command 
+ansible workernode1  -m command -a "ls -ltr" -k
+ansible workernode1  -m command -a "date" -k
+ansible workernode1  -m command -a "uptime" -k
+ansible webserver -m command -a "yum install tree* -y" -k
+
+
+raw module
+
+ansible all -m raw -a "ls;date;pwd"
+ansible appserver -m raw -a "pwd;date
+
+
+copy module 
+ansible all -m copy -a "src=/ansible/testfiles.txt dest=/tmp"
+ansible all -m copy -a "src=/ansible/testfiles.txt dest=/tmp owner=testuser"
+ansible all -m copy -a "src=/ansible/testfiles.txt dest=/tmp owner=testuser group=test"
+ansible all -m copy -a "src=/ansible/testfiles.txt dest=/tmp owner=testuser group=test mode=777"
+ansible webserver -m copy -a "src=/tmp/test/dummyfiles.txt  remote_src=yes  dest=/tmp owner=testuser group=test mode=777 backup=yes"
+ansible all -m copy -a "src=/ansible/dummy_script.sh dest=/tmp"
+
+fetch module
+ansible  webserver -m fetch -a "src=/tmp/test/dummyfiles.txt test=/tmp"
+
+file module
+ansible all -m file -a "path=/tmp/test1 state=directory"
+ansible all -m file -a "src=/tmp  dest=/jonuchauhan  state=link"
+ansible webserver -m file -a "path=/tmp/test.txt  state=touch mode=777"
+
+shell module
+ansible all -m shell -a "sh /tmp/dummy_script.sh"
+
+package module
+ansible all -m package -a "name=httpd state=present"
+ansible all -m package -a "name=tree state=present"
+ansible all -m package -a "name=tree state=removed"
+ansible all -m package -a "name=tree state=latest use=yum"
+
+
+yum_repository 
+ansible all -m yum_repository -a 'name=yum_test_repository  description="this is test repository" file=test_repo   baseurl=https://download.fedoraproject.org/pub/epel/$releasever/$basearch/ gpgcheck=no enabled=no'
+ansible all -m yum_repository -a 'name=yum_test_repository  description="this is test repository" file=test_repo   baseurl=https://download.fedoraproject.org/pub/epel/$releasever/$basearch/ gpgcheck=no enabled=yes'
+
+yum module
+ansible all -m yum -a "name=httpd state=present"
+ansible all -m yum -a "name=tree  state=latest"
+ansible all -m yum -a "name='*'   state=latest exclude=kernel*,foo*"
+ansible all -m yum -a "name=http://nginx.org/packages/centos/6/noarch/RPMS/nginx-release-centos-6-0.el6.ngx.noarch.rpm  state=present"
+ansible all -m yum -a "list=tree"
+
+
+service module
+ansible all -m service  -a "name=httpd state=started"
+ansible all -m service  -a "name=httpd state=reloaded"
+ansible all -m service  -a "name=httpd state=started enabled=yes"
+ansible all -m service  -a "name=httpd state=stopped"
+
+user&group module
+ansible all -m group -a "name=cloud state=present"
+ansible all -m user -a 'name=dev_user comment="dev user" group=cloud state=present'
+ansible all -m user -a "name=dev_user shell=/sbin/nologin state=present
+ansible all -m user -a "name=dev_user  state=absent  remove=yes"
+ansible all -m user -a "name=test_user state=present"
+ansible all -m user -a "name=test_user generate_ssh_key=yes ssh_key_bits=2048 ssh_key_file=.ssh/id_rsa"
+
+
+lineinfile module
+ansible all -m lineinfile -a 'path=/etc/sudoers line="test_user    ALL=(ALL)       ALL"      insertafter="^root"      state=present'
+ansible all -m lineinfile -a 'path=/etc/sudoers line="test_user    ALL=(ALL)       ALL" state=absent'
+ansible all -m lineinfile -a 'path=/etc/sudoers line="test_user    ALL=(ALL)       ALL"      insertafter="^root"      state=present'
+
+setup module
+ansible all - setup
+ansible all -m setup -a 'filter=ansible_distribution'
+ansible all -m setup -a 'filter=ansible_dns'
+ansible all -m setup -a 'filter=ansible_kernel'
