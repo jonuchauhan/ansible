@@ -1,0 +1,6 @@
+- hosts: all
+  tasks:
+      - copy: src=/tmp/test.txt  dest=/tmp   owner=root  group=root mode=777
+      - file: path=/tmp/aws  state=directory
+      - yum:  name=httpd state=present
+      - service: name=httpd state=reloaded
