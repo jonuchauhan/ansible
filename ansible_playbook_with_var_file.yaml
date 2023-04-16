@@ -1,0 +1,20 @@
+- name: "This is first anisble playbook with yaml"
+  hosts: all
+  vars_files:
+     - /ansible/variables/var.yaml
+  tasks:
+   - name: "This task is used to create the {{mydir}}" 
+     file:
+         path: "{{mydir}}"
+         state: directory
+   - name: "This task is used to copy the file name {{file}}"  
+     copy:
+         src: "{{file}}"
+         dest: /tmp
+         owner: "{{owner}}"
+         group: "{{group}}" 
+   - name: "This task is used to install the {{pkg}}"     
+     yum:
+         name: "{{pkg}}"
+         state: latest  
+     
