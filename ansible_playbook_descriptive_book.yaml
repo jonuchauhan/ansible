@@ -1,0 +1,10 @@
+- name: This is webserver machine  
+  hosts: webserver
+  tasks: 
+     - import_tasks: /ansible/tasks/webserver_tasks.yaml
+
+- name: this is appserver machine 
+  hosts: appserver
+  tasks:
+    - import_tasks:  /ansible/tasks/appserver_tasks.yaml          
+
